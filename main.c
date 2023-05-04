@@ -618,7 +618,7 @@ bool Data_Cache_Write(unsigned int address)
             Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
             if (Mode > 1)
             {
-                printf("Data Cache WRITE HIT!\n");
+                printf("\033[1;33mData Cache WRITE HIT!\033[1;0m\n");
             }
         }
         else
@@ -626,12 +626,12 @@ bool Data_Cache_Write(unsigned int address)
             //Additional debug message
             if (Mode > 1)
             {
-                printf("Data Cache WRITE MISS!\n");
-                printf("Reason: SAME TAG BUT INVALID! - THIS IS ACTUALLY ERROR!\n");                
+                printf("\033[1;33mData Cache WRITE MISS!\n");
+                printf("Reason: SAME TAG BUT INVALID! - THIS IS ACTUALLY ERROR!\033[1;0m\n");                
             }
             if (Mode > 0)
             {
-                printf("Message to L2: Read for Ownership from L2 block contain address 0x%x \n",address);
+                printf("\033[1;36mMessage to L2: Read for Ownership from L2 block contain address 0x%x\033[1;0m\n",address);
             }
             Data_Stats_Report.Data_Miss++;
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
@@ -663,12 +663,12 @@ bool Data_Cache_Write(unsigned int address)
         {
             if (Mode > 1)
             {
-                printf("Data Cache WRITE MISS!\n");
-                printf("Reason: Load block into empty line!\n");
+                printf("\033[1;33mData Cache WRITE MISS!\n");
+                printf("Reason: Load block into empty line!\033[1;0m\n");
             }
             if (Mode > 0)
             {
-                printf("Message to L2: Read for Ownership from L2 block contain address: 0x%x\n", address);                
+                printf("\033[1;36mMessage to L2: Read for Ownership from L2 block contain address: 0x%x\033[1;0m\n", address);          
             }
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -682,8 +682,8 @@ bool Data_Cache_Write(unsigned int address)
         {
             if (Mode > 1)
             {
-                printf("Data Cache WRITE MISS!\n");
-                printf("Reason:Invalid line (caused by other core/master) or Another line is occupied the LRU and to be written position!\n");
+                printf("\033[1;33mData Cache WRITE MISS!\n");
+                printf("Reason:Invalid line (caused by other core/master) or Another line is occupied the LRU and to be written position!\033[1;0m\n");
             }
             //If no empty line (way) in the set => evict either INVALID line or least recently line
             for (uint8_t i = 0; i < DATA_WAYS; i++) //Find INVALID line - Mostly error as invalid = empty line
@@ -707,11 +707,11 @@ bool Data_Cache_Write(unsigned int address)
                     {
                         if (Mode > 1)
                         {
-                            printf("L1 evict line with address: 0x%x\n", Data_Cache[Selected_Cache_Way][Set].address);
+                            printf("\033[1;33mL1 evict line with address: 0x%x\033[1;0m\n", Data_Cache[Selected_Cache_Way][Set].address);
                         }                    
                         if (Mode > 0)
                         {                        
-                            printf("Message to L2: Read for Ownership line with address 0x%x from L2\n", address);                    
+                            printf("\033[1;36mMessage to L2: Read for Ownership line with address 0x%x from L2\033[1;0m\n", address);        
                         }
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -724,8 +724,8 @@ bool Data_Cache_Write(unsigned int address)
                     {
                         if (Mode > 0)
                         {
-                            printf("Message to L2: Write back line with address 0x%x to L2\n", Data_Cache[Selected_Cache_Way][Set].address);
-                            printf("Message to L2: Read for Ownership line with address 0x%x from L2\n", address);                    
+                            printf("\033[1;36mMessage to L2: Write back line with address 0x%x to L2\n", Data_Cache[Selected_Cache_Way][Set].address);
+                            printf("Message to L2: Read for Ownership line with address 0x%x from L2\033[1;0m\n", address);             
                         }
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -737,7 +737,7 @@ bool Data_Cache_Write(unsigned int address)
                 }               
                 else
                 {
-                    printf("ERROR: WRITE - THE LRU DATA IS CORRUPTED!\n");
+                    printf("\033[1;31mERROR: WRITE - THE LRU DATA IS CORRUPTED!\033[1;0m\n");
                     return true;
                 }                                                
             }
@@ -746,11 +746,11 @@ bool Data_Cache_Write(unsigned int address)
             {
                 if (Mode > 1)
                 {
-                    printf("L1 Data Cache Evict line with address 0x%x\n", Data_Cache[Selected_Cache_Way][Set].address);
+                    printf("\033[1;33mL1 Data Cache Evict line with address 0x%x\033[1;0m\n", Data_Cache[Selected_Cache_Way][Set].address);
                 }
                 if (Mode > 0)
                 {
-                    printf("Message to L2: Read for Ownership line with address 0x%x from L2\n", address);
+                    printf("\033[1;36mMessage to L2: Read for Ownership line with address 0x%x from L2\033[1;0m\n", address);
                 }
                 Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -1073,7 +1073,7 @@ void Data_LRU_State_Update(unsigned int Set_Way, unsigned int Cache_Set, uint8_t
             }
             else
             {
-                if (Mode > 1) printf("");
+                if (Mode > 1) printf("\033[1;31mERROR: LRU DATA CORRUPTED\033[1;0m\n");
             }                         
         }        
     }
