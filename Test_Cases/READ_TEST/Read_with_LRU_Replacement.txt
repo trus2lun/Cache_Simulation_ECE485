@@ -1,5 +1,5 @@
 0 000F003F //Line 0 Set 15360 => MISS //LRU: 0:3;1:x;2:x;3:x
 0 100F003F //Line 1 Set 15360 => MISS //LRU: 0:2;1:3;2:x;3:x
 0 180F003F //Line 2 Set 15360 => MISS //LRU: 0:1;1:2;2:3;3:x
-0 1C0F003F //Line 2 Set 15360 => MISS //LRU: 0:0;1:1;2:2;3:3
-0 000F403F //Line 3 Set 15616 => MISS //LRU: 0:3;1:x;2:x;3:x
+0 1C0F003F //Line 3 Set 15360 => MISS //LRU: 0:0;1:1;2:2;3:3
+0 140F003F //Replace Line 0 (LRU:0) Set 15616 (MISS) //LRU: 0:3;1:0;2:1;3:2
