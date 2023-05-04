@@ -506,8 +506,7 @@ bool Data_Cache_Read(unsigned int address)
         {
             if (Mode > 1)
             {
-                printf("\033[1;33mData Cache READ MISS!\033[1;0m\n");
-                printf("\033[1;33mReason:Can be caused by eviction command from L2!\033[1;0m\n");
+                printf("\033[1;33mData Cache READ MISS!\033[1;0m\n");                
             }        
             //If no empty line (way) in the set => evict either INVALID line or least recently line
             for (uint8_t i = 0; i < DATA_WAYS; i++) //Find INVALID line - Mostly error as invalid = empty line
@@ -527,6 +526,10 @@ bool Data_Cache_Read(unsigned int address)
                 */                
                 if (Selected_Cache_Way > -1)
                 {
+                    if (Mode > 1)
+                    {
+                        printf("\033[1;33mReason: The line is occupied and conflict!\033[1;0m\n");
+                    }
                     if (0 == Data_Cache[Selected_Cache_Way][Set].Dirty)
                     {
                         if (Mode > 1)
@@ -545,7 +548,7 @@ bool Data_Cache_Read(unsigned int address)
                         Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
                     }
                     else
-                    {
+                    {                        
                         if (Mode > 0)
                         {
                             printf("\033[1;36mMessage to L2: Write back line with address 0x%x to L2\033[1;0m\n", Data_Cache[Selected_Cache_Way][Set].address);
@@ -569,6 +572,7 @@ bool Data_Cache_Read(unsigned int address)
             {
                 if (Mode > 1)
                 {
+                    printf("\033[1;33mReason:Can be caused by eviction command from L2!\033[1;0m\n");
                     printf("\033[1;33mL1 Data Cache Evict line with address 0x%x\033[1;0m\n", Data_Cache[Selected_Cache_Way][Set].address);
                 }
                 if (Mode > 0)
@@ -890,7 +894,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
                         Instr_Cache[Selected_Cache_Way][Set].address = address;
                         Instruction_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
                     }
-                    else
+                    else //This case never happen because nothing write to instruction cache
                     {
                         if (Mode > 0)
                         {
@@ -1061,9 +1065,16 @@ void Data_LRU_State_Update(unsigned int Set_Way, unsigned int Cache_Set, uint8_t
     }
     else                    //Usually, in case of a miss and there is empty line in set
     {
-        for (uint8_t i = 0; i < Set_Way; i++) //nên add thêm trường hợp <= 0 thì bỏ qua ?
+        for (uint8_t i = 0; i < Set_Way; i++)
         {
-            --Data_Cache[i][Cache_Set].LRU_State;
+            if (Data_Cache[i][Cache_Set].LRU_State < 4)
+            {
+                --Data_Cache[i][Cache_Set].LRU_State;
+            }
+            else
+            {
+                if (Mode > 1) printf("");
+            }                         
         }        
     }
     Data_Cache[Set_Way][Cache_Set].LRU_State = 3; //Highest state since it have just been referred to
