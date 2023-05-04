@@ -1,0 +1,28 @@
+
+0 0000003F //Line 0 Set 0 => MISS #SET = 0/2 is choosen
+0 0000003B //Line 0 Set 0 => HIT
+0 00000039 //Line 0 Set 0 => HIT
+0 00000021 //Line 0 Set 0 => HIT
+0 00100029 //Line 1 Set 0 => MISS
+0 0010002B //Line 1 Set 0 => HIT
+0 00100028 //Line 1 Set 0 => HIT
+0 0000002A //Line 0 Set 0 => HIT
+0 0020002A //Line 2 Set 0 => MISS
+0 0020003E //Line 2 Set 0 => HIT
+0 0140003E //Line 3 Set 0 => MISS
+0 0140003A //Line 3 Set 0 => HIT
+0 00200034 //Line 2 Set 0 => HIT
+0 000000BA //Line 0 Set 2 => MISS
+0 002000BA //Line 1 Set 2 => MISS
+0 006000BE //Line 2 Set 2 => MISS
+0 000000BF //Line 0 Set 2 => HIT
+0 300000BB //Line 4 Set 2 => MISS
+0 006000BF //Line 2 Set 2 => HIT
+0 00600080 //Line 2 Set 2 => HIT
+0 00600081 //Line 2 Set 2 => HIT
+0 00600082 //Line 2 Set 2 => HIT
+0 00600087 //Line 2 Set 2 => HIT
+0 00600083 //Line 2 Set 2 => HIT
+0 00600084 //Line 2 Set 2 => HIT
+0 00600085 //Line 2 Set 2 => HIT
+0 00600086 //Line 2 Set 2 => HIT
