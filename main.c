@@ -1045,7 +1045,7 @@ void Data_LRU_State_Update(unsigned int Set_Way, unsigned int Cache_Set, uint8_t
 {
     uint8_t LRU_Current_State = Data_Cache[Set_Way][Cache_Set].LRU_State;
 
-    if (0 == Empty_Flag)    //Usuallay, in case a hit occurred => decrease all other line by 1
+    if (0 == Empty_Flag)    //Usuallay, in case a miss and no empty line in set
     {        
         for (uint8_t i = 0; i < DATA_LRU; i++)
         {
@@ -1059,9 +1059,9 @@ void Data_LRU_State_Update(unsigned int Set_Way, unsigned int Cache_Set, uint8_t
             }            
         }        
     }
-    else                    //Usually, in case of a miss
+    else                    //Usually, in case of a miss and there is empty line in set
     {
-        for (uint8_t i = 0; i < Set_Way; i++)
+        for (uint8_t i = 0; i < Set_Way; i++) //nên add thêm trường hợp <= 0 thì bỏ qua ?
         {
             --Data_Cache[i][Cache_Set].LRU_State;
         }        
