@@ -1,0 +1,11 @@
+0 000001BF //Line 0 Set 6 => MISS LRU: 0:3||1:x||2:x||3:x
+0 400001BF //Line 1 Set 6 => MISS LRU: 0:2||1:3||2:x||3:x
+1 600001BF //Line 2 Set 6 => MISS LRU: 0:1||1:2||2:3||3:x
+1 700001BF //Line 3 Set 6 => MISS LRU: 0:0||1:1||2:2||3:3
+1 0000023F //Line 0 Set 8 => MISS LRU: 0:3||1:x||2:x||3:x
+1 4000023F //Line 1 Set 8 => MISS LRU: 0:2||1:3||2:x||3:x
+1 6000023F //line 2 Set 8 => MISS LRU: 0:1||1:2||3:3||3:x
+0 4000023E //Line 1 Set 8 => HIT  LRU: 0:1||1:3||3:2||3:x
+1 7000023F //Line 3 Set 8 => MISS LRU: 0:0||1:2||3:1||3:3
+0 F000023F //Read miss with replacement+writeback of line 0 LRU: 0:3||1:1||3:0||3:2
+1 F800023F //Write miss with replacement+writeback of line 3 LRU: 0:2||1:0||3:3||3:1

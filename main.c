@@ -896,17 +896,10 @@ bool Instruction_Cache_Fetch(unsigned int address)
                     }
                     else //This case never happen because nothing write to instruction cache
                     {
-                        if (Mode > 0)
+                        if (Mode > 1)
                         {
-                            printf("Message to L2: Write line with address 0x%x to L2\n", Data_Cache[Selected_Cache_Way][Set].address);
-                            printf("Message to L2: Read line with address 0x%x from L2\n", address);                    
+                            printf("ERROR: Dirty is set to 1 in instruction cache!\n");
                         }
-                        Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
-                        Instr_Cache[Selected_Cache_Way][Set].set = Set;
-                        Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
-                        Instr_Cache[Selected_Cache_Way][Set].Dirty = 0;
-                        Instr_Cache[Selected_Cache_Way][Set].address = address;
-                        Instruction_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
                     }
                 }
                 else

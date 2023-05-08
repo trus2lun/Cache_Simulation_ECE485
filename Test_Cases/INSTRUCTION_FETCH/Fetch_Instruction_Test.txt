@@ -1,0 +1,6 @@
+2 0000003F //Fetch from line 0 Set 0 => MISS //LRU: 0:1||1:x
+2 6000003F //Fetch from line 1 Set 0 => MISS //LRU: 0:0||1:1
+2 0000003E //Fetch from line 0 Set 0 => HIT  //LRU: 0:1||1:0
+2 0000003C //Fetch from line 0 Set 0 => HIT  //LRU: 0:1||1:0
+2 0000003A //Fetch from line 0 Set 0 => HIT  //LRU: 0:1||1:0
+2 7000003F //Fetch with line 1 replaced => MISS //LRU: 0:0||1:1
