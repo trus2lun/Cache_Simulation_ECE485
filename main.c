@@ -944,7 +944,7 @@ bool L2_Evict_Command_to_L1(unsigned int address)
     Hence, the second case in the "Read/Write Hit - INVALID case"*/
     uint16_t Tag = address >> (SET_BIT + BYTE_BIT);
     uint16_t Set = (address & SET_MASK) >> BYTE_BIT;
-    uint8_t Match_Line = 0;
+    bool Match_Line = false;
     //Search the Tag of a line in a set and invalidate the line once the tag is hit
     for (uint8_t i = 0; i < DATA_WAYS; i++)
     {
@@ -953,7 +953,7 @@ bool L2_Evict_Command_to_L1(unsigned int address)
         if (Mode > 1) printf("Iteration: %u\n", i);
         if (Data_Cache[i][Set].tag == Tag)
         {
-            Match_Line = 1;
+            Match_Line = true;
             if (Data_Cache[i][Set].Valid == 1)
             {
                 if (Data_Cache[i][Set].Dirty == 0)
@@ -998,11 +998,11 @@ bool L2_Evict_Command_to_L1(unsigned int address)
         }
         else
         {
-            if ((Mode > 1) && (i >= 3) && (Match_Line == 1))
+            if ((i >= 3) && (Match_Line == false))
             {
-                printf("ERROR: LINE NOT FOUND IN L1!\n");
-            }
-            if ((i >= 3) && (Match_Line == 1)) return true;            
+                if (Mode > 1) printf("ERROR: LINE NOT FOUND IN L1!\n");
+                return true;
+            }            
         }
     }
     return false;    
@@ -1010,8 +1010,32 @@ bool L2_Evict_Command_to_L1(unsigned int address)
 
 bool Print_Content_And_State()
 {
+    //Local variables
+    //uint8_t Printing_Flag = 0;
+    uint16_t Sets_Number = pow(2, SET_BIT);
 
+    //Calculate hit ration:
+    Data_Stats_Report.Data_Hit_Ratio = (float)((Data_Stats_Report.Data_Hit*1.0)/(Data_Stats_Report.Data_Miss + Data_Stats_Report.Data_Hit));
+    Instr_Stats_Report.Instr_Hit_Ratio = (float)((Instr_Stats_Report.Instruction_Hit*1.0)/(Instr_Stats_Report.Instruction_Miss + Instr_Stats_Report.Instruction_Hit));
 
+    //Data Cache Information
+    printf("DATA CACHE SUMMARY:\n");
+    for (uint16_t i = 0; i < Sets_Number; i++)
+    {
+        for (uint8_t j = 0; j < DATA_WAYS; j++)
+        {
+            if ((Data_Cache[j][i].address > 0) || (Data_Cache[j][i].Valid == 1))
+            {
+                printf("Set Index: %u\n", j);
+            }
+            
+        }
+        
+    }
+    
+
+    //Instruction Cache Informatino
+    printf("INSTRUCTION CACHE SUMMARY:\n");
     
     return false;
 }
