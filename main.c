@@ -944,7 +944,7 @@ bool L2_Evict_Command_to_L1(unsigned int address)
     Hence, the second case in the "Read/Write Hit - INVALID case"*/
     uint16_t Tag = address >> (SET_BIT + BYTE_BIT);
     uint16_t Set = (address & SET_MASK) >> BYTE_BIT;
-    
+    uint8_t Match_Line = 0;
     //Search the Tag of a line in a set and invalidate the line once the tag is hit
     for (uint8_t i = 0; i < DATA_WAYS; i++)
     {
@@ -953,6 +953,7 @@ bool L2_Evict_Command_to_L1(unsigned int address)
         if (Mode > 1) printf("Iteration: %u\n", i);
         if (Data_Cache[i][Set].tag == Tag)
         {
+            Match_Line = 1;
             if (Data_Cache[i][Set].Valid == 1)
             {
                 if (Data_Cache[i][Set].Dirty == 0)
@@ -997,13 +998,12 @@ bool L2_Evict_Command_to_L1(unsigned int address)
         }
         else
         {
-            if ((Mode > 1) && (i >= 3))
+            if ((Mode > 1) && (i >= 3) && (Match_Line == 1))
             {
                 printf("ERROR: LINE NOT FOUND IN L1!\n");
             }
-            if (i >= 3) return true;            
+            if ((i >= 3) && (Match_Line == 1)) return true;            
         }
-                
     }
     return false;    
 }
