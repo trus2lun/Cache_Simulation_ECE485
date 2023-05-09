@@ -1,4 +1,3 @@
-
 0 0000003F //Line 0 Set 0 => MISS #SET = 0/2 is choosen
 0 0000003B //Line 0 Set 0 => HIT
 0 00000039 //Line 0 Set 0 => HIT
@@ -26,3 +25,4 @@
 0 00600084 //Line 2 Set 2 => HIT
 0 00600085 //Line 2 Set 2 => HIT
 0 00600086 //Line 2 Set 2 => HIT
+9

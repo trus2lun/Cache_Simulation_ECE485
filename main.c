@@ -1011,31 +1011,79 @@ bool L2_Evict_Command_to_L1(unsigned int address)
 bool Print_Content_And_State()
 {
     //Local variables
-    //uint8_t Printing_Flag = 0;
+    uint8_t Valid_in_Set = 0;
     uint16_t Sets_Number = pow(2, SET_BIT);
 
     //Calculate hit ration:
     Data_Stats_Report.Data_Hit_Ratio = (float)((Data_Stats_Report.Data_Hit*1.0)/(Data_Stats_Report.Data_Miss + Data_Stats_Report.Data_Hit));
     Instr_Stats_Report.Instr_Hit_Ratio = (float)((Instr_Stats_Report.Instruction_Hit*1.0)/(Instr_Stats_Report.Instruction_Miss + Instr_Stats_Report.Instruction_Hit));
 
+    printf("L1 CACHE SUMMARY AND STATISTICS:\n");
     //Data Cache Information
-    printf("DATA CACHE SUMMARY:\n");
+    printf("1. DATA CACHE SUMMARY:\n");
     for (uint16_t i = 0; i < Sets_Number; i++)
     {
         for (uint8_t j = 0; j < DATA_WAYS; j++)
         {
-            if ((Data_Cache[j][i].address > 0) || (Data_Cache[j][i].Valid == 1))
+            if (Data_Cache[j][i].Valid == 1)
             {
-                printf("Set Index: %u\n", j);
-            }
-            
+                if (Valid_in_Set == 0)
+                {
+                    printf("Set Index: %u\n", i);
+                    Valid_in_Set = 1;
+                }
+                printf("Way Index: %u || Address: 0x%08x || Tag: %04u || Set: %05u || LRU: %1d || Valid: %u || Dirty: %d\n", 
+                j, Data_Cache[j][i].address, Data_Cache[j][i].tag, Data_Cache[j][i].set, Data_Cache[j][i].LRU_State, Data_Cache[j][i].Valid, Data_Cache[j][i].Dirty);
+            }            
         }
-        
+        Valid_in_Set = 0;
     }
-    
+    printf("--------------------------------------------------------------------------------------------------------------\n");
 
-    //Instruction Cache Informatino
-    printf("INSTRUCTION CACHE SUMMARY:\n");
+    //Instruction Cache Informatinon
+    printf("2. INSTRUCTION CACHE SUMMARY:\n");
+    for (uint16_t i = 0; i < Sets_Number; i++)
+    {
+        for (uint8_t j = 0; j < INSTR_WAYS; j++)
+        {
+            if (Instr_Cache[j][i].Valid == 1)
+            {
+                if (Valid_in_Set == 0)
+                {
+                    printf("Set Index: %u\n", i);
+                    Valid_in_Set = 1;
+                }
+                printf("Way Index: %u || Address: 0x%08x || Tag: %04u || Set: %05u || LRU: %1d || Valid: %u\n", 
+                j, Instr_Cache[j][i].address, Instr_Cache[j][i].tag, Instr_Cache[j][i].set, Instr_Cache[j][i].LRU_State, Instr_Cache[j][i].Valid);
+            }            
+        }
+        Valid_in_Set = 0;
+    }
+    printf("--------------------------------------------------------------------------------------------------------------\n");
+
+    //Statistics
+    printf("3. L1 CACHE STATISTICS:\n");
+    printf("a. DATA CACHE:\n");
+    if (Data_Stats_Report.Data_Miss == 0)
+    {
+        printf("No operation was executed on Data Cache!\n");        
+    }
+    else
+    {
+        printf("Data Cache Read Accesses: %u\nData Cache Write Accesses: %u\nData Cache Hits: %u \nData Cache Misses: %u\nData Cache Hit Ratio: %1.2f\n\n", 
+        Data_Stats_Report.Data_Read_Access, Data_Stats_Report.Data_Write_Access, Data_Stats_Report.Data_Hit, Data_Stats_Report.Data_Miss, Data_Stats_Report.Data_Hit_Ratio);
+    }
+
+    printf("b. INSTRUCTION CACHE:\n");
+    if (Instr_Stats_Report.Instruction_Miss == 0)
+    {
+        printf("No operation was executed on Data Cache!\n");        
+    }
+    else
+    {
+        printf("Instruction Cache Read Accesses: %u\nInstruction Cache Write Accesses: %u\nInstruction Cache Hits: %u \nInstruction Cache Misses: %u\nInstruction Cache Hit Ratio: %1.2f\n\n", 
+        Instr_Stats_Report.Instruction_Read_Access, Instr_Stats_Report.Instruction_Write_Access, Instr_Stats_Report.Instruction_Hit, Instr_Stats_Report.Instruction_Miss, Instr_Stats_Report.Instr_Hit_Ratio);
+    }
     
     return false;
 }
