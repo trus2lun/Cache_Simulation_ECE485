@@ -1,1 +1,7 @@
-haha
++File "Cache.c" chứa phần code để mô phỏng toàn bộ project!
++File Cache.exe đã được compile sẵn 
++Nếu muốn sửa đổi và biên dịch lại chương trình hãy sử dụng "MSYS GCC"
+    Cú pháp: gcc -W -Wall -O0 -o Cache.exe Cache.c
++Để chạy được file thì phải mở shell (cmd, powershell, bash shell, ...)
+    Di chuyển đến thư mục chứa file: Cache.exe hoặc Cache.o
+    Cú pháp: ./Cache.exe ./<Trace File>
