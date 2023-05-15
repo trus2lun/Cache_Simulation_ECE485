@@ -47,7 +47,7 @@ typedef enum {
 typedef struct {
     uint16_t tag;
     uint16_t set;
-    uint8_t LRU_State; //LRU state: 00 = LR_State, 11 = MR_State
+    uint8_t LRU_State; //LRU state: 4 for DATA Cache, 2 for INSTRUCTION Cache
     uint8_t Valid;
     uint8_t Dirty;
     uint32_t address;
