@@ -44,11 +44,16 @@ T7:
     lui x4, 0x01100
     addi x4, x4, 0x0fc
     lw x5, 0(x4)
+    addi x10, x10, 100
+    sw x10, 0(x4)
+    and x10, x0, x4
 T8:
     lui x4, 0x11100
     addi x4, x4, 0x0fc
-    lw x5, 0(x4)    
+    lw x5, 0(x4)        
 T9:
     lui x4, 0x11200
     addi x4, x4, 0x0fc
     lw x5, 0(x4)
+T10:
+    
