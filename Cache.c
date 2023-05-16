@@ -79,13 +79,12 @@ typedef struct {
 //Data and Instructino cache declarations
 Cache_Line_Typedef Data_Cache[DATA_WAYS][16384];
 Cache_Line_Typedef Instr_Cache[INSTR_WAYS][16384];
-
 //Report information declaration
 Data_Cache_Stats_Typedef  Data_Stats_Report;
 Instr_Cache_Stats_Typedef Instr_Stats_Report;
-
 //Debug Mode
 unsigned int Mode = 3;
+int Hit_Show = 0;
 /* END USER Variable */
 
 /*======================================================================*/
@@ -121,10 +120,10 @@ int main(int argc, char* argv[])
     /* END Main: Local variable */
     
     /* BEGIN Code */
-    //Check input traces
+    //Check input traces and hit_show parameter
     printf("\033[32m==============================================================================================================\033[0m\n");
     printf("\033[32m\t\t\t\t\033[4;1mINITIALIZATION:\033[0m\n");
-    if (argc != 2)
+    if (argc < 2)
     {
         printf("\033[31mERROR: Trace file name not found!\033[0m\n");
         exit(1);
@@ -134,7 +133,7 @@ int main(int argc, char* argv[])
         trace_file_name = argv[1];
         printf("\033[32;4;1m1. Trace file name:\033[0m\033[32m %s\n\033[0m", trace_file_name);
     }
-    
+    if (argc > 2) Hit_Show = atoi(argv[2]);
     //Clear cache and stats
     printf("\033[32;4;1m2. Resetting all cache lines and stats...\033[0m\n");
     if (Reset_And_Clear_Cache()) printf("\033[32m\t   => DONE\033[0m\n");
@@ -311,11 +310,11 @@ bool Data_Cache_Read(unsigned int address)
             Data_Cache[Selected_Cache_Way][Set].Dirty = Data_Cache[Selected_Cache_Way][Set].Dirty;
             Data_Cache[Selected_Cache_Way][Set].address = address;
             Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
-            if (Mode > 0) printf("\033[33mL1(DATA) READ HIT <0x%08x>\033[0m\n", address);
+            if ((Mode > 0) && (Hit_Show == 1)) printf("\033[33mL1(DATA)  READ HIT <0x%08x>\033[0m\n", address);
         }        
         else
         {
-            if (Mode > 0) printf("\033[33;4mL1(DATA) READ MISS - Read from L2 <0x%08x>\033[0m\n",address);            
+            if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS - Read from L2 <0x%08x>\033[0m\n",address);            
             Data_Stats_Report.Data_Miss++;
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -341,7 +340,7 @@ bool Data_Cache_Read(unsigned int address)
         {
             if (Mode > 0)
             {
-                printf("\033[33;4mL1(DATA) READ MISS - Read from L2 <0x%08x>\033[0m\n", address);
+                printf("\033[33;4mL1(DATA)  READ MISS - Read from L2 <0x%08x>\033[0m\n", address);
             }   
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -368,7 +367,7 @@ bool Data_Cache_Read(unsigned int address)
                     {                      
                         if (Mode > 0)
                         {                            
-                            printf("\033[33;4mL1(DATA) READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);              
+                            printf("\033[33;4mL1(DATA)  READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);              
                         }
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -379,7 +378,7 @@ bool Data_Cache_Read(unsigned int address)
                     }
                     else
                     {                        
-                        if (Mode > 0) printf("\033[33;4mL1(DATA) READ MISS - Write to L2 <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                    
+                        if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS - Write to L2 <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                    
                         
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -397,7 +396,7 @@ bool Data_Cache_Read(unsigned int address)
             }
             else
             {
-                if (Mode > 0) printf("\033[33;4mL1(DATA) READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
+                if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
                 Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Data_Cache[Selected_Cache_Way][Set].set = Set;
                 Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -430,11 +429,11 @@ bool Data_Cache_Write(unsigned int address)
             Data_Cache[Selected_Cache_Way][Set].Dirty = 1;
             Data_Cache[Selected_Cache_Way][Set].address = address;
             Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
-            if (Mode > 0) printf("\033[33mL1(DATA) WRITE HIT <0x%08x>\033[0m\n", address);            
+            if ((Mode > 0) && (Hit_Show == 1)) printf("\033[33mL1(DATA)  WRITE HIT <0x%08x>\033[0m\n", address);            
         }
         else
         {
-            if (Mode > 0) printf("\033[33;4mL1(DATA) WRITE MISS - Read for Ownership from L2 <0x%08x>\033[0m\n",address);            
+            if (Mode > 0) printf("\033[33;4mL1(DATA)  WRITE MISS - Read for Ownership from L2 <0x%08x>\033[0m\n",address);            
             Data_Stats_Report.Data_Miss++;
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -461,7 +460,7 @@ bool Data_Cache_Write(unsigned int address)
         {
             if (Mode > 0)
             {
-                printf("\033[33;4mL1(DATA) WRITE MISS - Read for Ownership from L2 <0x%08x>\033[0m\n", address);          
+                printf("\033[33;4mL1(DATA)  WRITE MISS - Read for Ownership from L2 <0x%08x>\033[0m\n", address);          
             }
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -487,7 +486,7 @@ bool Data_Cache_Write(unsigned int address)
                 {
                     if (0 == Data_Cache[Selected_Cache_Way][Set].Dirty)
                     {                 
-                        if (Mode > 0) printf("\033[33;4mL1(DATA) WRITE MISS - L1 evict <0x%08x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                
+                        if (Mode > 0) printf("\033[33;4mL1(DATA)  WRITE MISS - L1 evict <0x%08x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
                         Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -497,7 +496,7 @@ bool Data_Cache_Write(unsigned int address)
                     }
                     else
                     {
-                        if (Mode > 0) printf("\033[33;4mL1(DATA) WRITE MISS - Write to L2 <0x%x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                                            
+                        if (Mode > 0) printf("\033[33;4mL1(DATA)  WRITE MISS - Write to L2 <0x%x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                                            
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
                         Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -514,7 +513,7 @@ bool Data_Cache_Write(unsigned int address)
             }
             else
             {
-                if (Mode > 0) printf("\033[33;4mL1(DATA) WRITE MISS - L1 evict <0x%08x> - Read for Ownership from L2 <0x%08x>)\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
+                if (Mode > 0) printf("\033[33;4mL1(DATA)  WRITE MISS - L1 evict <0x%08x> - Read for Ownership from L2 <0x%08x>)\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
                 Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Data_Cache[Selected_Cache_Way][Set].set = Set;
                 Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -547,7 +546,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
             Instr_Cache[Selected_Cache_Way][Set].Dirty = Instr_Cache[Selected_Cache_Way][Set].Dirty;
             Instr_Cache[Selected_Cache_Way][Set].address = address;
             Instruction_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
-            if (Mode > 0) printf("\033[33mL1(INSTR) READ HIT <0x%08x>\033[0m\n", address);
+            if ((Mode > 0) && (Hit_Show == 1)) printf("\033[33mL1(INSTR) READ HIT <0x%08x>\033[0m\n", address);
         }
         else
         {
@@ -737,7 +736,7 @@ bool Print_Content_And_State()
     }
     else
     {
-        printf("\033[36m\t+Data Cache Read Accesses: %u\n\t+Data Cache Write Accesses: %u\n\t+Data Cache Hits: %u\n\t+Data Cache Misses: %u\n\t+Data Cache Hit Ratio: %1.2f\n\033[0m\n", 
+        printf("\033[36m\t+Data Cache Read Accesses: %u\n\t+Data Cache Write Accesses: %u\n\t+Data Cache Hits: %u\n\t+Data Cache Misses: %u\n\t+Data Cache Hit Ratio: %1.4f\n\033[0m\n", 
         Data_Stats_Report.Data_Read_Access, Data_Stats_Report.Data_Write_Access, Data_Stats_Report.Data_Hit, Data_Stats_Report.Data_Miss, Data_Stats_Report.Data_Hit_Ratio);
     }
     printf("\033[36m\033[1mb. INSTRUCTION CACHE:\033[0m\n");
@@ -747,7 +746,7 @@ bool Print_Content_And_State()
     }
     else
     {
-        printf("\033[36m\t+Instruction Cache Read Accesses: %u\n\t+Instruction Cache Write Accesses: %u\n\t+Instruction Cache Hits: %u\n\t+Instruction Cache Misses: %u\n\t+Instruction Cache Hit Ratio: %1.2f\n\033[0m\n", 
+        printf("\033[36m\t+Instruction Cache Read Accesses: %u\n\t+Instruction Cache Write Accesses: %u\n\t+Instruction Cache Hits: %u\n\t+Instruction Cache Misses: %u\n\t+Instruction Cache Hit Ratio: %1.4f\n\033[0m\n", 
         Instr_Stats_Report.Instruction_Read_Access, Instr_Stats_Report.Instruction_Write_Access, Instr_Stats_Report.Instruction_Hit, Instr_Stats_Report.Instruction_Miss, Instr_Stats_Report.Instr_Hit_Ratio);
     }
     printf("\033[36m==============================================================================================================\033[0m\n");
