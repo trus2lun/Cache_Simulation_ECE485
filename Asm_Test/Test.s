@@ -23,13 +23,24 @@ a20: .word 10
 
 .text
 main:
-    
-    jal swap
-swap:
-    slli x6, x11, 2
-    add x6, x10, x6
-    lw x5, 0(x6)
-    lw x7, 4(x6)
-    sw x7, 0(x6)
-    sw x5, 4(x6)
-    jalr x0, x1, 0
+    li x8, 20
+    add x9, x0, x0
+    add x10, x0, x0
+    la x5, a1
+                
+Outer_Loop:    
+    Inner_Loop:
+        lw x6, 0(x5)
+        lw x7, 4(x5)
+        blt x6, x7, bypass
+        swap:
+            sw x7, 0(x5)
+            sw x6, 4(x5)
+        bypass:            
+        addi x5, x5, 4
+        addi x10, x10, 1
+        blt x10, x8, Inner_Loop        
+    addi x9, x9, 1
+    blt x9, x8, Outer_Loop
+exit:
+    nop
