@@ -314,7 +314,7 @@ bool Data_Cache_Read(unsigned int address)
         }        
         else
         {
-            if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS - Read from L2 <0x%08x>\033[0m\n",address);            
+            if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS  - Read from L2 <0x%08x>\033[0m\n",address);            
             Data_Stats_Report.Data_Miss++;
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -340,7 +340,7 @@ bool Data_Cache_Read(unsigned int address)
         {
             if (Mode > 0)
             {
-                printf("\033[33;4mL1(DATA)  READ MISS - Read from L2 <0x%08x>\033[0m\n", address);
+                printf("\033[33;4mL1(DATA)  READ MISS  - Read from L2 <0x%08x>\033[0m\n", address);
             }   
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -367,7 +367,7 @@ bool Data_Cache_Read(unsigned int address)
                     {                      
                         if (Mode > 0)
                         {                            
-                            printf("\033[33;4mL1(DATA)  READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);              
+                            printf("\033[33;4mL1(DATA)  READ MISS  - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);              
                         }
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -378,7 +378,7 @@ bool Data_Cache_Read(unsigned int address)
                     }
                     else
                     {                        
-                        if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS - Write to L2 <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                    
+                        if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS  - Write to L2 <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                    
                         
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -396,7 +396,7 @@ bool Data_Cache_Read(unsigned int address)
             }
             else
             {
-                if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
+                if (Mode > 0) printf("\033[33;4mL1(DATA)  READ MISS  - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
                 Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Data_Cache[Selected_Cache_Way][Set].set = Set;
                 Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -550,7 +550,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
         }
         else
         {
-            if (Mode > 0) printf("\033[33;4mL1(INSTR) READ MISS - Read from L2 <0x%08x>\033[0m\n",address);            
+            if (Mode > 0) printf("\033[33;4mL1(INSTR) READ MISS  - Read from L2 <0x%08x>\033[0m\n",address);            
             Instr_Stats_Report.Instruction_Miss++;
             Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
             Instr_Cache[Selected_Cache_Way][Set].set = Set;
@@ -574,7 +574,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
         }
         if (Selected_Cache_Way > -1)
         {
-            if (Mode >= 1) printf("\033[33;4mL1(INSTR) READ MISS - Read from L2 <0x%x>\033[0m\n", address);              
+            if (Mode >= 1) printf("\033[33;4mL1(INSTR) READ MISS  - Read from L2 <0x%x>\033[0m\n", address);              
             Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
             Instr_Cache[Selected_Cache_Way][Set].set = Set;
             Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -595,7 +595,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
                 {
                     if (0 == Instr_Cache[Selected_Cache_Way][Set].Dirty)
                     {
-                        if (Mode > 0) printf("\033[33;4mL1(INSTR) READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                                    
+                        if (Mode > 0) printf("\033[33;4mL1(INSTR) READ MISS  - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                                                    
                         Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Instr_Cache[Selected_Cache_Way][Set].set = Set;
                         Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -613,7 +613,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
             }
             else
             {
-                if (Mode > 0) printf("\033[33;4mL1(INSTR) READ MISS - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
+                if (Mode > 0) printf("\033[33;4mL1(INSTR) READ MISS  - L1 evict <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Cache[Selected_Cache_Way][Set].address, address);                
                 Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Instr_Cache[Selected_Cache_Way][Set].set = Set;
                 Instr_Cache[Selected_Cache_Way][Set].Valid = 1;

@@ -140,18 +140,29 @@
 2 00000084 //addi x4, x4, 0x0fc
 2 00000088 //lw x5, 0(x4)
 0 011000fc //Read data at 0x011000fc
-2 0000008c //add
-
-
-2 0000008c //lui x4, 0x11100            -   T8
-2 00000090 //addi x4, x4, 0x0fc
-2 00000094 //lw x5, 0(x4)
+2 0000008c //addi x10, x10, 100
+2 00000090 //sw x10, 0(x4)
+1 011000fc //Write data to 0x011000fc
+2 00000094 //add x10, x0, x4
+2 00000098 //lui x4, 0x11100            -   T8
+2 0000009c //addi x4, x4, 0x0fc
+2 000000a0 //lw x5, 0(x4)
 0 111000fc //Read data at 0x111000fc
-2 0000008c //lui x4, 0x11200            -   T9
-2 00000090 //addi x4, x4, 0x0fc
-2 00000094 //lw x5, 0(x4)
+2 000000a4 //lui x4, 0x11200            -   T9
+2 000000a8 //addi x4, x4, 0x0fc
+2 000000ac //lw x5, 0(x4)
 0 112000fc //Read data at 0x112000fc
-
-
-
+2 000000b0 //addi x10, x10, -8          -   T10
+2 000000b4 //addi x11, x0, 50
+2 000000b8 //sw x11, 0(x10)
+1 011000f4 //Write data to 0x011000f4
+2 000000bc //lui x4, 0x17200
+2 000000c0 //addi x4, x4, 0x03c
+2 000000c4 //addi x10, x0, 20
+2 000000c8 //sw x10, 0(x4)
+1 1720003c //Write data to 0x1720003c
+2 000000cc //lui x4, 0x17e00
+2 000000d0 //addi x4, x4, 0x02c
+2 000000d4 //lw x10, 0(x4)
+0 17e0002c //Read data at 0x17e0002c
 9
