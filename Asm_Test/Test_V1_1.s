@@ -64,4 +64,7 @@ T11:
     addi x4, x4, 0x03c
     addi x10, x0, 20
     sw x10, 0(x4)
+    lui x4, 0x17e00
+    addi x4, x4, 0x02c
+    lw x10, 0(x4)
     
