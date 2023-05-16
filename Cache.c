@@ -58,6 +58,7 @@ typedef struct {
 typedef struct {
     uint32_t Data_Hit;
     uint32_t Data_Miss;
+    uint32_t Write_Back;
     uint32_t Data_Read_Access;
     uint32_t Data_Write_Access;
     float Data_Hit_Ratio;
@@ -379,7 +380,7 @@ bool Data_Cache_Read(unsigned int address)
                     else
                     {                        
                         if (Mode > 0) printf("\033[33;4m[READ_ ACCESS %6u] L1(DATA)  READ MISS  - Write to L2 <0x%08x> - Read from L2 <0x%08x>\033[0m\n", Data_Stats_Report.Data_Read_Access, Data_Cache[Selected_Cache_Way][Set].address, address);                                    
-                        
+                        Data_Stats_Report.Write_Back++;                        
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
                         Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -486,7 +487,7 @@ bool Data_Cache_Write(unsigned int address)
                 {
                     if (0 == Data_Cache[Selected_Cache_Way][Set].Dirty)
                     {                 
-                        if (Mode > 0) printf("\033[33;4m[WRITE ACCESS %6u] L1(DATA)  WRITE MISS - L1 evict <0x%08x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Stats_Report.Data_Write_Access, Data_Cache[Selected_Cache_Way][Set].address, address);                                
+                        if (Mode > 0) printf("\033[33;4m[WRITE ACCESS %6u] L1(DATA)  WRITE MISS - L1 evict <0x%08x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Stats_Report.Data_Write_Access, Data_Cache[Selected_Cache_Way][Set].address, address);                                                        
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
                         Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -497,6 +498,7 @@ bool Data_Cache_Write(unsigned int address)
                     else
                     {
                         if (Mode > 0) printf("\033[33;4m[WRITE ACCESS %6u] L1(DATA)  WRITE MISS - Write to L2 <0x%x> - Read for Ownership from L2 <0x%08x>\033[0m\n", Data_Stats_Report.Data_Write_Access, Data_Cache[Selected_Cache_Way][Set].address, address);                                                            
+                        Data_Stats_Report.Write_Back++;
                         Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                         Data_Cache[Selected_Cache_Way][Set].set = Set;
                         Data_Cache[Selected_Cache_Way][Set].Valid = 1;
@@ -736,8 +738,8 @@ bool Print_Content_And_State()
     }
     else
     {
-        printf("\033[36m\t+Data Cache Read Accesses: %u\n\t+Data Cache Write Accesses: %u\n\t+Data Cache Hits: %u\n\t+Data Cache Misses: %u\n\t+Data Cache Hit Ratio: %1.4f\n\033[0m\n", 
-        Data_Stats_Report.Data_Read_Access, Data_Stats_Report.Data_Write_Access, Data_Stats_Report.Data_Hit, Data_Stats_Report.Data_Miss, Data_Stats_Report.Data_Hit_Ratio);
+        printf("\033[36m\t+Data Cache Read Accesses: %u\n\t+Data Cache Write Accesses: %u\n\t+Data Cache Write Backs: %u\n\t+Data Cache Hits: %u\n\t+Data Cache Misses: %u\n\t+Data Cache Hit Ratio: %1.4f\n\033[0m\n", 
+        Data_Stats_Report.Data_Read_Access, Data_Stats_Report.Data_Write_Access, Data_Stats_Report.Write_Back, Data_Stats_Report.Data_Hit, Data_Stats_Report.Data_Miss, Data_Stats_Report.Data_Hit_Ratio);
     }
     printf("\033[36m\033[1mb. INSTRUCTION CACHE:\033[0m\n");
     if (Instr_Stats_Report.Instruction_Miss == 0)
