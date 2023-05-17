@@ -1,0 +1,35 @@
+if (Address_Tag == A_Line_in_Set->Tag)
+{
+    if (A_Line_in_Set->Valid == true)
+    {
+        READ HIT
+    }
+    else
+    {
+        READ MISS
+        L1 Evict the INVALID line
+        Read from L2 block contain request address
+    }
+}
+else
+{
+    if (Set_have_empty_line = true)
+    {
+        READ MISS
+        Read from L2 block contain request address
+    }
+    else
+    {
+        READ MISS
+        if (LRU_line_in_Set->Dirty == false)
+        {
+            L1 Evict the LRU = 0 line
+            Read from L2 block contain request address
+        }
+        else
+        {
+            L1 Write back the dirty line to L2
+            Read from L2 block contain request address
+        }
+    }
+}

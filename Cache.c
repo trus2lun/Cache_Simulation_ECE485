@@ -37,12 +37,12 @@ typedef enum {
     PRINT_LOG       = 9
 } Operation_Typedef;
 
-/* Every L1 cache type: LRU/MESI/tag/set/byte 
+/* Every L1 cache type: LRU/D/V/tag/set/byte 
 *
-*     LRU   MESI      tag          set       byte    Data
-*   --------------------------------------------------------
-*   | 1/2 |  2  |     12     |      14     |  *6* | [Data] |
-*   --------------------------------------------------------
+*     LRU   D   V       tag          set       byte    Data
+*   ----------------------------------------------------------
+*   | 1/2 | 1 | 1 |     12     |      14     |  *6* | [Data] |
+*   ----------------------------------------------------------
 */
 typedef struct {
     uint16_t tag;
@@ -576,7 +576,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
         }
         if (Selected_Cache_Way > -1)
         {
-            if (Mode >= 1) printf("\033[33;4m[READ_ ACCESS %6u] L1(INSTR) READ MISS  - Read from L2 <0x%x>\033[0m\n", Instr_Stats_Report.Instruction_Read_Access, address);              
+            if (Mode >= 1) printf("\033[33;4m[READ_ ACCESS %6u] L1(INSTR) READ MISS  - Read from L2 <0x%08x>\033[0m\n", Instr_Stats_Report.Instruction_Read_Access, address);              
             Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
             Instr_Cache[Selected_Cache_Way][Set].set = Set;
             Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
