@@ -311,11 +311,11 @@ bool Data_Cache_Read(unsigned int address)
             Data_Cache[Selected_Cache_Way][Set].Dirty = Data_Cache[Selected_Cache_Way][Set].Dirty;
             Data_Cache[Selected_Cache_Way][Set].address = address;
             Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
-            if ((Mode > 0) && (Hit_Show == 1)) printf("\033[33m[READ ACCESS %6u] - L1(DATA)  READ HIT <0x%08x>\033[0m\n", Data_Stats_Report.Data_Read_Access, address);
+            if ((Mode > 0) && (Hit_Show == 1)) printf("\033[33m[READ ACCESS %6u] L1(DATA)  READ HIT <0x%08x>\033[0m\n", Data_Stats_Report.Data_Read_Access, address);
         }        
         else
         {
-            if (Mode > 0) printf("\033[33;4m[READ_ ACCESS %6u] - L1(DATA)  READ MISS  - Read from L2 <0x%08x>\033[0m\n", Data_Stats_Report.Data_Read_Access, address);            
+            if (Mode > 0) printf("\033[33;4m[READ_ ACCESS %6u] L1(DATA)  READ MISS  - Read from L2 <0x%08x>\033[0m\n", Data_Stats_Report.Data_Read_Access, address);            
             Data_Stats_Report.Data_Miss++;
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
@@ -634,6 +634,7 @@ bool L2_Evict_Command_to_L1(unsigned int address)
     uint16_t Tag = address >> (SET_BIT + BYTE_BIT);
     uint16_t Set = (address & SET_MASK) >> BYTE_BIT;
     bool Match_Line = false;
+    bool Search_Instructions = false;
 
     for (uint8_t i = 0; i < DATA_WAYS; i++)
     {
@@ -667,12 +668,42 @@ bool L2_Evict_Command_to_L1(unsigned int address)
         }
         else
         {
-            if ((i >= 3) && (Match_Line == false))
-            {
-                printf("ERROR: LINE NOT FOUND IN L1!\n");
-                return true;
-            }            
+            if ((i >= 3) && (Match_Line == false)) Search_Instructions = true;
+                //printf("ERROR: LINE NOT FOUND IN L1!\n");
+                //eturn true;           
         }
+    }
+    if (Search_Instructions == true)
+    {
+        for (uint8_t i = 0; i < INSTR_WAYS; i++)
+        {
+            if (Instr_Cache[i][Set].tag == Tag)
+            {
+                Match_Line = true;
+                if (Instr_Cache[i][Set].Valid == 1)
+                {
+                    Instr_Cache[i][Set].tag = Tag;
+                    Instr_Cache[i][Set].set = Set;
+                    Instr_Cache[i][Set].Valid = 0;
+                    Instr_Cache[i][Set].address = address;
+                }
+                else
+                {
+                    Instr_Cache[i][Set].tag = Tag;
+                    Instr_Cache[i][Set].set = Set;                                
+                    Instr_Cache[i][Set].address = address;
+                }                
+            }
+            else
+            {
+                if ((i >= 1) && (Match_Line == false))
+                {
+                    printf("ERROR: LINE NOT FOUND IN L1!\n");
+                    return true;
+                }
+                
+            }                        
+        }        
     }
     return false;    
 }
