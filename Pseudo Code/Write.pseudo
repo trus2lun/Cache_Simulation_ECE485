@@ -1,0 +1,35 @@
+if (Address_Tag == A_Line_in_Set->Tag)
+{
+    if (A_Line_in_Set->Valid == true)
+    {
+        WRITE HIT
+    }
+    else
+    {
+        WRITE MISS
+        L1 Evict the INVALID line
+        Read for Ownership from L2 block contain request address
+    }
+}
+else
+{
+    if (Set_have_empty_line = true)
+    {
+        WRITE MISS
+        Read for Ownership from L2 block contain request address
+    }
+    else
+    {
+        WRITE MISS
+        if (LRU_line_in_Set->Dirty == false)
+        {
+            L1 Evict the LRU = 0 line
+            Read for Ownership from L2 block contain request address
+        }
+        else
+        {
+            L1 Write back the dirty line to L2
+            Read for Ownership from L2 block contain request address
+        }
+    }
+}

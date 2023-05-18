@@ -1,0 +1,24 @@
+if (Miss occur && Empty line)
+{
+    for (int i = 0; i < Empty_line_index; i++)
+    {
+        Line i -> LRU_State--;
+    }
+    Set Empty_line -> LRU_State = 3;
+}
+else
+{
+    Get the reference line CURRENT LRU state;
+    for (int i = 0; i < 4; i++)
+    {
+        if (Line i -> LRU_State > Current reference line LRU state)
+        {
+            Line i -> LRU_State --;
+        }
+        else
+        {
+            nop;
+        }
+    }
+    Referenced_line = 3;
+}

@@ -1,0 +1,168 @@
+2 00000000 //lui x4, 0x10000            -   T1
+2 00000004 //addi x4, x4, 0x03c
+2 00000008 //lw x5, 0(x4)
+0 1000003c //Read data at 0x1000003c
+2 0000000c //addi x5, x5, 1
+2 00000010 //sw x5, 0(x4)
+1 1000003c //Write data to 0x1000003c
+2 00000014 //lui x4, 0x10100            -   T2
+2 00000018 //addi x4, x4, 0x03c
+2 0000001c //lw x5, 0(x4)
+0 1010003c //Read data at 0x1010003c
+2 00000020 //addi x5, x5, 2
+2 00000024 //sw x5, 0(x4)
+1 1010003c //Write data to 0x1010003c
+2 00000028 //lui x4, 0x11100            -   T3
+2 0000002c //addi x4, x4, 0x03c
+2 00000030 //lw x5, 0(x4)
+0 1110003c //Read data at 0x1110003c
+2 00000034 //addi x5, x5, 2
+2 00000038 //sw x5, 0(x4)
+1 1110003c //Write data to 0x1010003c
+2 0000003c //lui x4, 0x11100            -   T4
+2 00000040 //addi x4, x4, 0x03c
+2 00000044 //lw x5, 0(x4)
+0 1120003c //Read data at 0x1110003c
+2 00000048 //addi x5, x5, 2
+2 0000004c //sw x5, 0(x4)
+1 1120003c //Write data to 0x1010003c
+2 00000050 //lui x4, 0x10100            -   T5
+2 00000054 //addi x4, x4, 0x000
+2 00000058 //add  x6, x0, x0
+2 0000005c //addi x7, x7, 20
+2 00000060 //lw x5, 0(x4)               -   loop1
+0 10100000 //Read data at 0x10100000
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop2
+0 10100004 //Read data at 0x10100004
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop3
+0 10100008 //Read data at 0x10100008
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop4
+0 1010000c //Read data at 0x1010000c
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop5
+0 10100010 //Read data at 0x10100010
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop6
+0 10100014 //Read data at 0x10100014
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop7
+0 10100018 //Read data at 0x10100018
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop8
+0 1010001c //Read data at 0x1010001c
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop9
+0 10100020 //Read data at 0x10100020
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop10
+0 10100024 //Read data at 0x10100024
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop11
+0 10100028 //Read data at 0x10100028
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop12
+0 1010002c //Read data at 0x1010002c
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop13
+0 10100030 //Read data at 0x10100030
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop14
+0 10100034 //Read data at 0x10100034
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop15
+0 10100038 //Read data at 0x10100038
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop16
+0 1010003c //Read data at 0x1010003c
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop17
+0 10100040 //Read data at 0x10100040
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop18
+0 10100044 //Read data at 0x10100044
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop19
+0 10100048 //Read data at 0x10100048
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000060 //lw x5, 0(x4)               -   loop20
+0 1010004c //Read data at 0x1010004c
+2 00000064 //addi x4, x4, 4
+2 00000068 //addi x6, x6, 1
+2 0000006c //blt x6, x7, loop
+2 00000070 //addi x0, x0, 0
+2 00000070 //addi x0, x0, 0             -   Additional "nop" due to simulator
+2 00000074 //lui x4, 0x00100            -   T6
+2 00000078 //addi x4, x4, 0x0fc
+2 0000007c //lw x5, 0(x4)
+0 001000fc //Read data at 0x001000fc
+2 00000080 //lui x4, 0x01100            -   T7
+2 00000084 //addi x4, x4, 0x0fc
+2 00000088 //lw x5, 0(x4)
+0 011000fc //Read data at 0x011000fc
+2 0000008c //addi x10, x10, 100
+2 00000090 //sw x10, 0(x4)
+1 011000fc //Write data to 0x011000fc
+2 00000094 //add x10, x0, x4
+2 00000098 //lui x4, 0x11100            -   T8
+2 0000009c //addi x4, x4, 0x0fc
+2 000000a0 //lw x5, 0(x4)
+0 111000fc //Read data at 0x111000fc
+2 000000a4 //lui x4, 0x11200            -   T9
+2 000000a8 //addi x4, x4, 0x0fc
+2 000000ac //lw x5, 0(x4)
+0 112000fc //Read data at 0x112000fc
+2 000000b0 //addi x10, x10, -8          -   T10
+2 000000b4 //addi x11, x0, 50
+2 000000b8 //sw x11, 0(x10)
+1 011000f4 //Write data to 0x011000f4
+2 000000bc //lui x4, 0x17200            -   T11
+2 000000c0 //addi x4, x4, 0x03c
+2 000000c4 //addi x10, x0, 20
+2 000000c8 //sw x10, 0(x4)
+1 1720003c //Write data to 0x1720003c
+2 000000cc //lui x4, 0x17e00
+2 000000d0 //addi x4, x4, 0x02c
+2 000000d4 //lw x10, 0(x4)
+0 17e0002c //Read data at 0x17e0002c
+9

@@ -1,0 +1,23 @@
+if (Evicted_Tag == Tag_in_Set)
+{
+    if (Line with match Tag -> Valid == 1)
+    {
+        if (Line with match Tag -> Dirty == 0)
+        {
+            L1 set the line Valid=0;
+        }
+        else
+        {
+            L1 Write back the line to L2;
+            L1 set the line Valid=0;
+        }
+    }
+    else
+    {
+        L1 ignore the line; //As it's already INVALID!
+    }
+}
+else
+{
+    ERROR: The evicted line in L2 not found in L1;
+}
