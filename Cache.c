@@ -668,9 +668,7 @@ bool L2_Evict_Command_to_L1(unsigned int address)
         }
         else
         {
-            if ((i >= 3) && (Match_Line == false)) Search_Instructions = true;
-                //printf("ERROR: LINE NOT FOUND IN L1!\n");
-                //eturn true;           
+            if ((i >= 3) && (Match_Line == false)) Search_Instructions = true;         
         }
     }
     if (Search_Instructions == true)
