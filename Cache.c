@@ -320,7 +320,7 @@ bool Data_Cache_Read(unsigned int address)
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
             Data_Cache[Selected_Cache_Way][Set].Valid = 1;
-            Data_Cache[Selected_Cache_Way][Set].Dirty = Data_Cache[Selected_Cache_Way][Set].Dirty;
+            Data_Cache[Selected_Cache_Way][Set].Dirty = 0;
             Data_Cache[Selected_Cache_Way][Set].address = address;
             Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
         }                
@@ -346,7 +346,7 @@ bool Data_Cache_Read(unsigned int address)
             Data_Cache[Selected_Cache_Way][Set].tag = Tag;
             Data_Cache[Selected_Cache_Way][Set].set = Set;
             Data_Cache[Selected_Cache_Way][Set].Valid = 1;
-            Data_Cache[Selected_Cache_Way][Set].Dirty = Data_Cache[Selected_Cache_Way][Set].Dirty;
+            Data_Cache[Selected_Cache_Way][Set].Dirty = 0;
             Data_Cache[Selected_Cache_Way][Set].address = address;
             Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);         
         }  
@@ -401,7 +401,7 @@ bool Data_Cache_Read(unsigned int address)
                 Data_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Data_Cache[Selected_Cache_Way][Set].set = Set;
                 Data_Cache[Selected_Cache_Way][Set].Valid = 1;
-                Data_Cache[Selected_Cache_Way][Set].Dirty = Data_Cache[Selected_Cache_Way][Set].Dirty;
+                Data_Cache[Selected_Cache_Way][Set].Dirty = 0;
                 Data_Cache[Selected_Cache_Way][Set].address = address;
                 Data_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
             }                        
@@ -557,7 +557,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
             Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
             Instr_Cache[Selected_Cache_Way][Set].set = Set;
             Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
-            Instr_Cache[Selected_Cache_Way][Set].Dirty = Instr_Cache[Selected_Cache_Way][Set].Dirty;
+            Instr_Cache[Selected_Cache_Way][Set].Dirty = 0;
             Instr_Cache[Selected_Cache_Way][Set].address = address;
             Instruction_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
         }
@@ -580,7 +580,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
             Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
             Instr_Cache[Selected_Cache_Way][Set].set = Set;
             Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
-            Instr_Cache[Selected_Cache_Way][Set].Dirty = Instr_Cache[Selected_Cache_Way][Set].Dirty;
+            Instr_Cache[Selected_Cache_Way][Set].Dirty = 0;
             Instr_Cache[Selected_Cache_Way][Set].address = address;
             Instruction_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);         
         }
@@ -619,7 +619,7 @@ bool Instruction_Cache_Fetch(unsigned int address)
                 Instr_Cache[Selected_Cache_Way][Set].tag = Tag;
                 Instr_Cache[Selected_Cache_Way][Set].set = Set;
                 Instr_Cache[Selected_Cache_Way][Set].Valid = 1;
-                Instr_Cache[Selected_Cache_Way][Set].Dirty = Instr_Cache[Selected_Cache_Way][Set].Dirty;
+                Instr_Cache[Selected_Cache_Way][Set].Dirty = 0;
                 Instr_Cache[Selected_Cache_Way][Set].address = address;
                 Instruction_LRU_State_Update(Selected_Cache_Way, Set, Empty_Flag);
             }
